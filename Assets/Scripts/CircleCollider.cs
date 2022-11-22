@@ -3,27 +3,27 @@ using System.Collections.Generic;
 
 public class CircleCollider : MonoBehaviour
 {
-    [SerializeField]
-    private float _radius;
+    [field: SerializeField]
+    public float Radius { get; private set; }
 
-    private static Dictionary<GameObject, CircleCollider> _colliders;
+    public static Dictionary<GameObject, CircleCollider> Colliders {get; private set;}
 
     void Awake() 
     {
-        _radius = transform.localScale.x * 0.5f;
+        Radius = transform.localScale.x * 0.5f;
 
-        if (_colliders == null)
-            _colliders = new Dictionary<GameObject, CircleCollider>();
+        if (Colliders == null)
+            Colliders = new Dictionary<GameObject, CircleCollider>();
         
-        _colliders.Add(gameObject, this);
+        Colliders.Add(gameObject, this);
     }
 
     public static bool IsColliding(GameObject go, Vector3 nextPosition)
     {
         var collision = false;
-        var colliderA = _colliders[go];
+        var colliderA = Colliders[go];
 
-        foreach (var collider in _colliders)
+        foreach (var collider in Colliders)
         {
             var colliderB = collider.Value;
             
@@ -32,11 +32,11 @@ public class CircleCollider : MonoBehaviour
 
             var colliderPositon = collider.Key.transform.position;
 
-            if (colliderA._radius + colliderB._radius >= Vector3.Distance(colliderPositon, nextPosition))
+            if (colliderA.Radius + colliderB.Radius >= Vector3.Distance(colliderPositon, nextPosition))
                 collision = true;
         }
 
-        collision |= WorldBounds.CheckInBounds(nextPosition, colliderA._radius);
+        collision |= WorldBounds.CheckInBounds(nextPosition, colliderA.Radius);
 
         return collision;
     }
