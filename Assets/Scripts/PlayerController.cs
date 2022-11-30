@@ -24,7 +24,9 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, dir, Color.red);
 
         Rotate(dir);
-        Shoot(dir);
+
+        if (Input.GetMouseButtonDown(0))
+            Shoot(dir);
     }
 
     void Move(float h, float v)
@@ -46,7 +48,11 @@ public class PlayerController : MonoBehaviour
     void Shoot(Vector3 dir)
     {
         GameObject hit;
-        if (Ray.Cast(gameObject, transform.position, dir, out hit))
-            Debug.Log(hit.name);
+        if (Ray.Cast(gameObject, transform.position, dir, out hit) 
+            && hit.CompareTag("Zombie"))
+            {
+                Debug.Log(hit.name + " has been shot!");
+                Destroy(hit);
+            }
     }
 }

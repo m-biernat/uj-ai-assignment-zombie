@@ -18,6 +18,8 @@ public class CircleCollider : MonoBehaviour
         Colliders.Add(gameObject, this);
     }
 
+    void OnDestroy() => Colliders.Remove(gameObject);
+
     public static bool IsColliding(GameObject go, Vector3 nextPosition)
     {
         var collision = false;

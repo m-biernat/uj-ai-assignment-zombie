@@ -131,8 +131,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_Name
       value: Zombie (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_TagString
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_RootOrder
@@ -514,8 +526,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_Name
       value: Zombie (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_TagString
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_RootOrder
@@ -571,8 +595,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_Name
       value: Obstacle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5765363997483796434, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_RootOrder
@@ -628,8 +660,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_Name
       value: Obstacle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5765363997483796434, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_RootOrder
@@ -685,8 +725,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_Name
       value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250515153014487390, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5765363997483796434, guid: 7a5a534a6052bea46af47dcd58019aeb, type: 3}
       propertyPath: m_RootOrder
@@ -799,7 +847,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_Name
+      value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: m_TagString
       value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
