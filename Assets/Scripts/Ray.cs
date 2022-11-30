@@ -6,6 +6,8 @@ public static class Ray
     {
         var dir = (end - start).normalized;
 
+        Debug.Log(dir);
+
         foreach (var collider in CircleCollider.Colliders)
         {
             var colPos = collider.Key.transform.position;
