@@ -14,11 +14,17 @@ public class PlayerController : MonoBehaviour
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         
-        var mousePosition = _cam.ScreenToWorldPoint(Input.mousePosition);
-
         Move(h, v);
-        Rotate(mousePosition);
-        Shoot(mousePosition);
+
+        var mousePosition = _cam.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0.0f;
+        var dir = (mousePosition - transform.position).normalized;
+
+        Debug.DrawLine(transform.position, mousePosition);
+        Debug.DrawRay(transform.position, dir, Color.red);
+
+        Rotate(dir);
+        Shoot(dir);
     }
 
     void Move(float h, float v)
@@ -34,13 +40,13 @@ public class PlayerController : MonoBehaviour
             transform.position = nextPosition;
     }
 
-    void Rotate(Vector3 mousePosition) 
-        => transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePosition - transform.position);
+    void Rotate(Vector3 dir) 
+        => transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
 
-    void Shoot(Vector3 mousePosition)
+    void Shoot(Vector3 dir)
     {
-        Hit hit;
-        if (Ray.Cast(transform.position, mousePosition, out hit))
-            Debug.Log(hit.go.name);
+        GameObject hit;
+        if (Ray.Cast(gameObject, transform.position, dir, out hit))
+            Debug.Log(hit.name);
     }
 }
