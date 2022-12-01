@@ -14,4 +14,10 @@ public class WorldBounds : MonoBehaviour
         else
             return true;
     }
+
+    public static void KeepInBounds(ref Vector3 nextPosition, float radius)
+    {
+        nextPosition.x = Mathf.Clamp(nextPosition.x, -_bounds.x + radius, _bounds.x - radius); 
+        nextPosition.y = Mathf.Clamp(nextPosition.y, -_bounds.y + radius, _bounds.y - radius);
+    }
 }

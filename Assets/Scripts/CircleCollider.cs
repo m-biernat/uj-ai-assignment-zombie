@@ -20,26 +20,40 @@ public class CircleCollider : MonoBehaviour
 
     void OnDestroy() => Colliders.Remove(gameObject);
 
-    public static bool IsColliding(GameObject go, Vector3 nextPosition)
+    public static Vector3 ResolveCollision(GameObject go, Vector3 nextPosition)
     {
-        var collision = false;
         var colliderA = Colliders[go];
+        var colliderAPos = colliderA.transform.position;
 
         foreach (var collider in Colliders)
         {
             var colliderB = collider.Value;
+            var colliderBPos = colliderB.transform.position;
             
             if (colliderA == colliderB)
                 continue;
 
-            var colliderPositon = collider.Key.transform.position;
+            var dirAB = colliderBPos - colliderAPos;
+            var dirANP = nextPosition - colliderAPos;
 
-            if (colliderA.Radius + colliderB.Radius >= Vector3.Distance(colliderPositon, nextPosition))
-                collision = true;
+            if (Vector3.Dot(dirAB, dirANP) <= 0)
+                continue;
+
+            if (colliderA.Radius + colliderB.Radius >= Vector3.Distance(colliderBPos, nextPosition))
+            {
+                //var distAB = Vector3.Distance(colliderAPos, colliderBPos);
+                //var rSumAB = colliderA.Radius + colliderB.Radius;
+
+                //nextPosition.x = colliderBPos.x + (rSumAB + .1f);
+                //nextPosition.y = colliderBPos.y + (rSumAB + .1f);
+                //nextPosition *= distAB;
+
+                nextPosition = go.transform.position;
+            }
         }
 
-        collision |= WorldBounds.CheckInBounds(nextPosition, colliderA.Radius);
+        WorldBounds.KeepInBounds(ref nextPosition, colliderA.Radius);
 
-        return collision;
+        return nextPosition;
     }
 }

@@ -38,8 +38,7 @@ public class PlayerController : MonoBehaviour
         
         var nextPosition = transform.position + dir.normalized * _speed * Time.deltaTime;
 
-        if (!CircleCollider.IsColliding(gameObject, nextPosition))
-            transform.position = nextPosition;
+        transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
     }
 
     void Rotate(Vector3 dir) 
