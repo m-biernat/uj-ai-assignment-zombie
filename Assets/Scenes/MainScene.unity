@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 5574839403593281060, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1014988443}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -421,6 +425,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1014988443 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5062788192252954288, guid: 4f0b48e37487fb246a477e9f87c7f5be, type: 3}
+  m_PrefabInstance: {fileID: 4379168683672830228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1121294406
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +549,14 @@ PrefabInstance:
     - target: {fileID: 3027026234308114833, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_TagString
       value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574839403593281060, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1014988443}
+    - target: {fileID: 5574839403593281060, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: <FleePanicDistance>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_RootOrder
@@ -862,6 +879,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 5574839403593281060, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1014988443}
     - target: {fileID: 8012995903371055949, guid: 2373d69734707ff4fa246eb39e0dfe5c, type: 3}
       propertyPath: m_RootOrder
       value: 7

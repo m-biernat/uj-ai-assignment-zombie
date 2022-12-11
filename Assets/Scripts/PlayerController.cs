@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    float _speed;
+    [field: SerializeField]
+    public float Speed { get; private set; } = 5.0f;
 
     Camera _cam;
 
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         if (dir.magnitude == 0)
             return;
         
-        var nextPosition = transform.position + dir.normalized * _speed * Time.deltaTime;
+        var nextPosition = transform.position + dir.normalized * Speed * Time.deltaTime;
 
         transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
     }
