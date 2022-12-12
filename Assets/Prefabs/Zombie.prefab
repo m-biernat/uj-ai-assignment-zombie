@@ -112,9 +112,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Mass>k__BackingField: 1
-  <MaxSpeed>k__BackingField: 1
+  <MaxSpeed>k__BackingField: 2
   <ArriveDistance>k__BackingField: 4
-  <FleePanicDistance>k__BackingField: 1
+  <EvadeMinDistance>k__BackingField: 3
+  <PursueMinDistance>k__BackingField: 4
   <WanderRadius>k__BackingField: 1
   <WanderDistance>k__BackingField: 0.3
   <WanderJitter>k__BackingField: 0.2

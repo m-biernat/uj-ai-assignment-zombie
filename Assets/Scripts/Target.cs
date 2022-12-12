@@ -9,7 +9,7 @@ public class Target : MonoBehaviour
 
     public static Vector3 Position { get => Transform.position; }
 
-    public static Vector3 Heading { get => Transform.forward; }
+    public static Vector3 Heading { get => Transform.up; }
 
     public static Vector3 Side { get => Transform.right; }
 

@@ -4,6 +4,11 @@ public static class Ray
 {
     public static bool Cast(GameObject caster, Vector3 origin, Vector3 dir, out GameObject hit)
     {
+        var result = false;
+        hit = null;    
+
+        var minDist = Mathf.Infinity;
+
         foreach (var collider in CircleCollider.Colliders)
         {
             if (collider.Key == caster)
@@ -17,15 +22,17 @@ public static class Ray
                 var v = Vector3.Cross(otc, dir);
                 var d = v.magnitude / dir.magnitude;
                 
-                if (d <= collider.Value.Radius)
+                var dist = otc.sqrMagnitude;
+
+                if (d <= collider.Value.Radius && dist < minDist)
                 {
+                    minDist = dist;
                     hit = collider.Key;
-                    return true;
+                    result = true;
                 }
             }
         }
 
-        hit = null;
-        return false;
+        return result;
     }
 }

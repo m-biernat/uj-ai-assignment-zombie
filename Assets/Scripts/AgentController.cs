@@ -14,7 +14,10 @@ public class AgentController : MonoBehaviour, IVelocity
     public float ArriveDistance { get; private set; } = 1.0f;
 
     [field: SerializeField]
-    public float FleePanicDistance { get; private set; } = 1.0f;
+    public float EvadeMinDistance { get; private set; } = 1.0f;
+
+    [field: SerializeField]
+    public float PursueMinDistance { get; private set; } = 1.0f;
 
     [field: SerializeField, Space]
     public float WanderRadius { get; private set; } = 1.0f;
@@ -32,8 +35,14 @@ public class AgentController : MonoBehaviour, IVelocity
 
     System.Nullable<Vector3> _hidingSpot;
 
+    public bool MayBeVisible { get; private set; }
+
+    public bool Exposed { get; private set; }
+
     void Update()
     {
+        VisibilityCheck();
+
         var steeringForce = CalculateForces();
 
         var acceleration = steeringForce / Mass;
@@ -51,8 +60,23 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 CalculateForces() 
     {
-        //return Seek(Target.Position);
-        return Hide();
+        var dist = Vector3.Distance(transform.position, Target.Position);
+
+        if (Exposed) 
+        {
+            if (MayBeVisible)
+            {   
+                if (dist < EvadeMinDistance)
+                    return Evade();
+
+                return Hide();
+            }
+            else
+                if (dist < PursueMinDistance)
+                    return Pursue();
+        }
+
+        return Wander();
     }
 
     Vector3 Seek(Vector3 targetPosition)
@@ -72,7 +96,7 @@ public class AgentController : MonoBehaviour, IVelocity
     {
         var targetDir = transform.position - targetPosition;
         
-        //if (targetDir.sqrMagnitude > FleePanicDistance)
+        //if (targetDir.sqrMagnitude < FleePanicDistance)
         //    return Vector3.zero;
 
         var desiredVelocity = targetDir.normalized
@@ -147,5 +171,22 @@ public class AgentController : MonoBehaviour, IVelocity
                 _hidingSpot = hidePos;
             }
         }
+    }
+
+    void VisibilityCheck()
+    {
+        var agentDir = transform.position - Target.Position;
+
+        if (Vector3.Dot(agentDir, Target.Heading) > 0)
+            MayBeVisible = true;
+        else
+            MayBeVisible = false;
+
+        GameObject hit;
+        if (Ray.Cast(gameObject, transform.position, -agentDir, out hit)
+            && hit.CompareTag("Player"))
+            Exposed = true;
+        else
+            Exposed = false;
     }
 }
