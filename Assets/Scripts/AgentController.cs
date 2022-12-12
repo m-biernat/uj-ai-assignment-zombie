@@ -27,6 +27,11 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 _wanderTarget = Vector3.zero;
 
+    [field: SerializeField, Space]
+    public float DistanceFromObstacle { get; private set; } = 1.0f;
+
+    System.Nullable<Vector3> _hidingSpot;
+
     void Update()
     {
         var steeringForce = CalculateForces();
@@ -47,7 +52,7 @@ public class AgentController : MonoBehaviour, IVelocity
     Vector3 CalculateForces() 
     {
         //return Seek(Target.Position);
-        return Wander();
+        return Hide();
     }
 
     Vector3 Seek(Vector3 targetPosition)
@@ -115,5 +120,32 @@ public class AgentController : MonoBehaviour, IVelocity
         //Debug.DrawLine(transform.position, targetWorld, Color.cyan);
 
         return Seek(targetWorld);
+    }
+
+    Vector3 Hide()
+    {
+        if (Target.Velocity.sqrMagnitude > 0.01f || _hidingSpot == null)
+            ChooseHidingSpot();
+        
+        return Seek(_hidingSpot.Value);
+    }
+
+    void ChooseHidingSpot()
+    {
+        var minDist = Mathf.Infinity;
+        
+        foreach (var obstaclePosition in Obstacle.Positions)
+        {
+            var hideDir = obstaclePosition - Target.Position;
+            var hidePos = obstaclePosition + hideDir.normalized * DistanceFromObstacle;
+
+            var dist = Vector3.Distance(transform.position, hidePos);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                _hidingSpot = hidePos;
+            }
+        }
     }
 }

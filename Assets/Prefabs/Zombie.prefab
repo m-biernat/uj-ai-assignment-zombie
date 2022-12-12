@@ -118,3 +118,4 @@ MonoBehaviour:
   <WanderRadius>k__BackingField: 1
   <WanderDistance>k__BackingField: 0.3
   <WanderJitter>k__BackingField: 0.2
+  <DistanceFromObstacle>k__BackingField: 2
