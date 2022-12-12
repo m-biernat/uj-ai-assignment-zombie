@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IVelocity
 {
     [field: SerializeField]
     public float Speed { get; private set; } = 5.0f;
+
+    public Vector3 Velocity { get; private set; }
 
     Camera _cam;
 
@@ -34,11 +36,18 @@ public class PlayerController : MonoBehaviour
         var dir = new Vector3(h, v, 0);
 
         if (dir.magnitude == 0)
+        {
+            Velocity = Vector3.zero;
             return;
+        }
         
         var nextPosition = transform.position + dir.normalized * Speed * Time.deltaTime;
 
-        transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
+        var position = CircleCollider.ResolveCollision(gameObject, nextPosition);
+
+        Velocity = position - transform.position;
+
+        transform.position = position;
     }
 
     void Rotate(Vector3 dir) 
