@@ -41,14 +41,14 @@ public class CircleCollider : MonoBehaviour
 
             if (colliderA.Radius + colliderB.Radius >= Vector3.Distance(colliderBPos, nextPosition))
             {
-                //var distAB = Vector3.Distance(colliderAPos, colliderBPos);
-                //var rSumAB = colliderA.Radius + colliderB.Radius;
+                var AB = colliderAPos - colliderBPos;
+                var unitAB = AB.normalized;
+                var rSumAB = colliderA.Radius + colliderB.Radius;
 
-                //nextPosition.x = colliderBPos.x + (rSumAB + .1f);
-                //nextPosition.y = colliderBPos.y + (rSumAB + .1f);
-                //nextPosition *= distAB;
+                nextPosition.x = colliderBPos.x + (rSumAB + .07f) * unitAB.x;
+                nextPosition.y = colliderBPos.y + (rSumAB + .07f) * unitAB.y;
 
-                nextPosition = go.transform.position;
+                //nextPosition = go.transform.position;
             }
         }
 

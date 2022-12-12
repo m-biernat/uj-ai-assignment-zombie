@@ -37,7 +37,9 @@ public class AgentController : MonoBehaviour, IVelocity
 
         Velocity = Vector2.ClampMagnitude(Velocity, MaxSpeed);
 
-        transform.position += Velocity * Time.deltaTime;
+        var nextPosition = transform.position + Velocity * Time.deltaTime;
+
+        transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
 
         //transform.rotation = Quaternion.LookRotation(Vector3.forward, Velocity * Time.deltaTime);
     }
