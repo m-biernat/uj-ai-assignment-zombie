@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8012995903371055949}
   - component: {fileID: 9001696498755156216}
   - component: {fileID: 9214962001177008558}
+  - component: {fileID: -8058797469277170171}
   - component: {fileID: -3132210973792721158}
   m_Layer: 0
   m_Name: Zombie
@@ -99,6 +100,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Radius>k__BackingField: 0
+--- !u!114 &-8058797469277170171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027026234308114833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2027a95b79a374083388c10cab37a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-3132210973792721158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,3 +133,8 @@ MonoBehaviour:
   <WanderDistance>k__BackingField: 0.3
   <WanderJitter>k__BackingField: 0.2
   <DistanceFromObstacle>k__BackingField: 2
+  <NeighbourRadius>k__BackingField: 2
+  <SeparationRadius>k__BackingField: 1
+  <AlignmentAmount>k__BackingField: 1
+  <SeparationAmount>k__BackingField: 2
+  <CohesionAmount>k__BackingField: 1

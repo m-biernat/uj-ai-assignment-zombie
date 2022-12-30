@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour, IVelocity
 {
+    Agent _agent;
+
     public Vector3 Velocity { get; private set; }
 
     [field: SerializeField]
@@ -10,7 +12,7 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField]
     public float MaxSpeed { get; private set; } = 1.0f;
 
-    [field: SerializeField, Space]
+    [field: SerializeField, Space, Header("Basic behaviours")]
     public float ArriveDistance { get; private set; } = 1.0f;
 
     [field: SerializeField]
@@ -19,7 +21,7 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField]
     public float PursueMinDistance { get; private set; } = 1.0f;
 
-    [field: SerializeField, Space]
+    [field: SerializeField, Space, Header("Wander behaviour")]
     public float WanderRadius { get; private set; } = 1.0f;
 
     [field: SerializeField]
@@ -30,7 +32,7 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 _wanderTarget = Vector3.zero;
 
-    [field: SerializeField, Space]
+    [field: SerializeField, Space, Header("Hide behaviour")]
     public float DistanceFromObstacle { get; private set; } = 1.0f;
 
     System.Nullable<Vector3> _hidingSpot;
@@ -38,6 +40,24 @@ public class AgentController : MonoBehaviour, IVelocity
     public bool MayBeVisible { get; private set; }
 
     public bool Exposed { get; private set; }
+
+    
+    [field: SerializeField, Space, Header("Flock behaviour")]
+    public float NeighbourRadius { get; private set; }
+
+    [field: SerializeField]
+    public float SeparationRadius { get; private set; }
+
+    [field: SerializeField]
+    public float AlignmentAmount { get; private set; }
+
+    [field: SerializeField]
+    public float CohesionAmount { get; private set; }
+
+    [field: SerializeField]
+    public float SeparationAmount { get; private set; }
+
+    void Awake() => _agent = GetComponent<Agent>();
 
     void Update()
     {
@@ -71,12 +91,14 @@ public class AgentController : MonoBehaviour, IVelocity
 
                 return Hide();
             }
+            /*
             else
                 if (dist < PursueMinDistance)
                     return Pursue();
+            */
         }
 
-        return Wander();
+        return Wander() + Flock();
     }
 
     Vector3 Seek(Vector3 targetPosition)
@@ -188,5 +210,61 @@ public class AgentController : MonoBehaviour, IVelocity
             Exposed = true;
         else
             Exposed = false;
+    }
+
+    Vector3 Flock()
+    {
+        var flocking = Vector3.zero;
+        
+        var neighbourCount = 0;
+        var separatedCount = 0;
+        
+        var alignment = Vector3.zero;
+        var cohesion = Vector3.zero;
+        var separation = Vector3.zero;
+
+        foreach (var other in Agent.Agents)
+        {
+            if (other == _agent)
+                continue;
+
+            var dist = Vector3.Distance(transform.position, other.transform.position);
+
+            if (dist < NeighbourRadius)
+            {
+                alignment += other.Controller.Velocity;
+                cohesion += other.transform.position;
+
+                if (dist < SeparationRadius)
+                {
+                    var diff = transform.position - other.transform.position;
+                    separation += diff.normalized / diff.magnitude;
+
+                    separatedCount++;
+                }
+
+                neighbourCount++;
+            }
+        }
+
+        if (neighbourCount > 0)
+        {
+            alignment /= neighbourCount;
+            alignment = alignment.normalized * AlignmentAmount;
+
+            cohesion /= neighbourCount;
+            cohesion -= transform.position;
+            cohesion = cohesion.normalized * CohesionAmount;
+
+            if (separatedCount > 0)
+            {
+                separation /= separatedCount;
+                separation *= SeparationAmount;
+            }
+
+            flocking = alignment + cohesion + separation;
+        }
+
+        return flocking;
     }
 }
