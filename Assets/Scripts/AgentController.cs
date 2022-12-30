@@ -223,7 +223,7 @@ public class AgentController : MonoBehaviour, IVelocity
         var cohesion = Vector3.zero;
         var separation = Vector3.zero;
 
-        foreach (var other in Agent.Agents)
+        foreach (var other in Agent.Collection)
         {
             if (other == _agent)
                 continue;
@@ -262,7 +262,7 @@ public class AgentController : MonoBehaviour, IVelocity
                 separation *= SeparationAmount;
             }
 
-            flocking = alignment + cohesion + separation;
+            flocking = alignment + cohesion + separation; // * MaxSpeed?
         }
 
         return flocking;

@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(AgentController))]
 public class Agent : MonoBehaviour
 {
-    public static List<Agent> Agents { get; private set; }
+    public static List<Agent> Collection { get; private set; }
 
     Transform _tranform;
 
@@ -16,10 +16,12 @@ public class Agent : MonoBehaviour
 
     void Awake() 
     {
-        if (Agents == null)
-            Agents = new List<Agent>();
+        if (Collection == null)
+            Collection = new List<Agent>();
         
-        Agents.Add(this);
+        Collection.Add(this);
         Controller = GetComponent<AgentController>();
     }
+
+    void OnDestroy() => Collection.Remove(this);
 }
