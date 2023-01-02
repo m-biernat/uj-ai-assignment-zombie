@@ -74,6 +74,9 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField]
     public float AvoidanceForce { get; private set; } = .5f;
 
+    [field: SerializeField]
+    public float BreakingForce { get; private set; } = .5f;
+
     void Awake() => _agent = GetComponent<Agent>();
 
     void Update()
@@ -290,46 +293,63 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 AvoidObstacles()
     {
-        var v = Velocity.normalized * DetectionDistance;
-        var f = v + transform.position;
-        var l = Quaternion.Euler(0, 0, FeelerAngle) * v + transform.position;
-        var r = Quaternion.Euler(0, 0, -FeelerAngle) * v + transform.position;
-        var b = -v + transform.position;
+        var heading = Velocity.normalized;
+        var feeler = heading * DetectionDistance;
+        
+        var fp = feeler + transform.position;
+        var lp = Quaternion.Euler(0, 0, FeelerAngle) * feeler + transform.position;
+        var rp = Quaternion.Euler(0, 0, -FeelerAngle) * feeler + transform.position;
 
-        //Debug.DrawLine(transform.position, f, Color.red);
-        //Debug.DrawLine(transform.position, l, Color.green);
-        //Debug.DrawLine(transform.position, r, Color.blue);
+        //Debug.DrawLine(transform.position, fp, Color.red);
+        //Debug.DrawLine(transform.position, lp, Color.green);
+        //Debug.DrawLine(transform.position, rp, Color.blue);
 
-        var fo = WorldBounds.CheckInBounds(f);
-        var lo = WorldBounds.CheckInBounds(l);
-        var ro = WorldBounds.CheckInBounds(r);
+        var fc = WorldBounds.CheckInBounds(fp);
+        var lc = WorldBounds.CheckInBounds(lp);
+        var rc = WorldBounds.CheckInBounds(rp);
 
         foreach (var collider in CircleCollider.Colliders)
         {
             if (collider.Key == gameObject)
                 continue;
 
-            fo |= CircleCollider.PointOverlap(collider.Value, f);
-            lo |= CircleCollider.PointOverlap(collider.Value, l);
-            ro |= CircleCollider.PointOverlap(collider.Value, r);
+            fc |= CircleCollider.PointOverlap(collider.Value, fp);
+            lc |= CircleCollider.PointOverlap(collider.Value, lp);
+            rc |= CircleCollider.PointOverlap(collider.Value, rp);
         }
 
-        var avoidanceTarget = transform.position;
+        var avoidanceDir = Vector3.zero;
+        var x = 0;
+        
+        if (fc && lc && rc) 
+            return Seek(-heading * AvoidanceForce + transform.position);
 
-        if (fo)
-            avoidanceTarget = b;
+        if (fc) {
+            //Debug.DrawLine(transform.position, fp, Color.red);
+            avoidanceDir += -heading * BreakingForce;
+            x++;
+        }
 
-        if (lo)
-            avoidanceTarget = r;
+        if (lc) {
+            //Debug.DrawLine(transform.position, lp, Color.green);
+            avoidanceDir += Quaternion.Euler(0, 0, -90) * heading * AvoidanceForce;
+            x++;
+        }
+        
+        if (rc) {
+            //Debug.DrawLine(transform.position, rp, Color.blue);
+            avoidanceDir += Quaternion.Euler(0, 0, 90) * heading * AvoidanceForce;
+            x++;
+        }
+        
+        if (x > 0)
+            avoidanceDir /= x;
 
-        if (ro)
-            avoidanceTarget = l;
+        if (avoidanceDir.sqrMagnitude > 0)
+            avoidanceDir = Seek(avoidanceDir + transform.position);
 
-        if (lo && ro)
-            avoidanceTarget = b;
+        //Debug.DrawRay(transform.position, avoidanceDir, Color.yellow);
 
-        //Debug.DrawLine(transform.position, avoidanceTarget, Color.yellow);
-
-        return Seek(avoidanceTarget) * AvoidanceForce;
+        return avoidanceDir;
     }
 }

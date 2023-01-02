@@ -142,4 +142,5 @@ MonoBehaviour:
   <SeparationAmount>k__BackingField: 2
   <DetectionDistance>k__BackingField: 1
   <FeelerAngle>k__BackingField: 30
-  <AvoidanceForce>k__BackingField: 0.7
+  <AvoidanceForce>k__BackingField: 5
+  <BreakingForce>k__BackingField: 2
