@@ -132,9 +132,14 @@ MonoBehaviour:
   <WanderRadius>k__BackingField: 1
   <WanderDistance>k__BackingField: 0.3
   <WanderJitter>k__BackingField: 0.2
+  <WanderBoundsMargin>k__BackingField: 0.5
   <DistanceFromObstacle>k__BackingField: 2
+  <FlockingEnabled>k__BackingField: 1
   <NeighbourRadius>k__BackingField: 2
   <SeparationRadius>k__BackingField: 1
   <AlignmentAmount>k__BackingField: 1
-  <SeparationAmount>k__BackingField: 2
   <CohesionAmount>k__BackingField: 1
+  <SeparationAmount>k__BackingField: 2
+  <DetectionDistance>k__BackingField: 1
+  <FeelerAngle>k__BackingField: 30
+  <AvoidanceForce>k__BackingField: 0.7

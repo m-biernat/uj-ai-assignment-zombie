@@ -6,6 +6,15 @@ public class WorldBounds : MonoBehaviour
 
     void Awake() => _bounds = transform.localScale * 0.5f;
 
+    public static bool CheckInBounds(Vector3 position)
+    {
+        if (position.x < _bounds.x && position.x > -_bounds.x &&
+            position.y < _bounds.y && position.y > -_bounds.y)
+            return false;
+        else
+            return true;
+    }
+
     public static bool CheckInBounds(Vector3 nextPosition, float radius)
     {
         if (nextPosition.x + radius < _bounds.x && nextPosition.x - radius > -_bounds.x &&

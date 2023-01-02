@@ -56,4 +56,12 @@ public class CircleCollider : MonoBehaviour
 
         return nextPosition;
     }
+
+    public static bool PointOverlap(CircleCollider collider, Vector3 point)
+    {
+        if (Vector3.Distance(point, collider.transform.position) <= collider.Radius)
+            return true;
+        else
+            return false;
+    }
 }

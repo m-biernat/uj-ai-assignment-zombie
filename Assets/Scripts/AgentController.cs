@@ -32,6 +32,10 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 _wanderTarget = Vector3.zero;
 
+    [field: SerializeField]
+    public float WanderBoundsMargin { get; private set; } = .5f;
+
+
     [field: SerializeField, Space, Header("Hide behaviour")]
     public float DistanceFromObstacle { get; private set; } = 1.0f;
 
@@ -42,7 +46,10 @@ public class AgentController : MonoBehaviour, IVelocity
     public bool Exposed { get; private set; }
 
     
-    [field: SerializeField, Space, Header("Flock behaviour")]
+    [field: SerializeField, Range(0, 1), Space, Header("Flock behaviour")]
+    public int FlockingEnabled { get; private set; }
+
+    [field: SerializeField]
     public float NeighbourRadius { get; private set; }
 
     [field: SerializeField]
@@ -56,6 +63,16 @@ public class AgentController : MonoBehaviour, IVelocity
 
     [field: SerializeField]
     public float SeparationAmount { get; private set; }
+
+
+    [field: SerializeField, Space, Header("Obstacle avoidance")]
+    public float DetectionDistance { get; private set; } = 1.0f;
+
+    [field: SerializeField]
+    public float FeelerAngle { get; private set; } = 45.0f;
+
+    [field: SerializeField]
+    public float AvoidanceForce { get; private set; } = .5f;
 
     void Awake() => _agent = GetComponent<Agent>();
 
@@ -74,6 +91,8 @@ public class AgentController : MonoBehaviour, IVelocity
         var nextPosition = transform.position + Velocity * Time.deltaTime;
 
         transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
+
+        //Debug.DrawLine(transform.position, transform.position + Velocity.normalized, Color.red);
 
         //transform.rotation = Quaternion.LookRotation(Vector3.forward, Velocity * Time.deltaTime);
     }
@@ -98,7 +117,7 @@ public class AgentController : MonoBehaviour, IVelocity
             */
         }
 
-        return Wander() + Flock();
+        return Wander() + FlockingEnabled * Flock() + AvoidObstacles();
     }
 
     Vector3 Seek(Vector3 targetPosition)
@@ -162,6 +181,7 @@ public class AgentController : MonoBehaviour, IVelocity
 
         var targetLocal = _wanderTarget + Velocity.normalized * WanderDistance;
         var targetWorld = transform.TransformPoint(targetLocal);
+        WorldBounds.KeepInBounds(ref targetWorld, WanderBoundsMargin);
 
         //Debug.DrawLine(transform.position, targetWorld, Color.cyan);
 
@@ -266,5 +286,50 @@ public class AgentController : MonoBehaviour, IVelocity
         }
 
         return flocking;
+    }
+
+    Vector3 AvoidObstacles()
+    {
+        var v = Velocity.normalized * DetectionDistance;
+        var f = v + transform.position;
+        var l = Quaternion.Euler(0, 0, FeelerAngle) * v + transform.position;
+        var r = Quaternion.Euler(0, 0, -FeelerAngle) * v + transform.position;
+        var b = -v + transform.position;
+
+        //Debug.DrawLine(transform.position, f, Color.red);
+        //Debug.DrawLine(transform.position, l, Color.green);
+        //Debug.DrawLine(transform.position, r, Color.blue);
+
+        var fo = WorldBounds.CheckInBounds(f);
+        var lo = WorldBounds.CheckInBounds(l);
+        var ro = WorldBounds.CheckInBounds(r);
+
+        foreach (var collider in CircleCollider.Colliders)
+        {
+            if (collider.Key == gameObject)
+                continue;
+
+            fo |= CircleCollider.PointOverlap(collider.Value, f);
+            lo |= CircleCollider.PointOverlap(collider.Value, l);
+            ro |= CircleCollider.PointOverlap(collider.Value, r);
+        }
+
+        var avoidanceTarget = transform.position;
+
+        if (fo)
+            avoidanceTarget = b;
+
+        if (lo)
+            avoidanceTarget = r;
+
+        if (ro)
+            avoidanceTarget = l;
+
+        if (lo && ro)
+            avoidanceTarget = b;
+
+        //Debug.DrawLine(transform.position, avoidanceTarget, Color.yellow);
+
+        return Seek(avoidanceTarget) * AvoidanceForce;
     }
 }
