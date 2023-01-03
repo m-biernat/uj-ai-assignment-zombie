@@ -39,7 +39,7 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField, Space, Header("Hide behaviour")]
     public float DistanceFromObstacle { get; private set; } = 1.0f;
 
-    System.Nullable<Vector3> _hidingSpot;
+    Vector3 _hidingSpot;
 
     public bool MayBeVisible { get; private set; }
 
@@ -87,6 +87,8 @@ public class AgentController : MonoBehaviour, IVelocity
     public bool EnableCollsions { get; private set; } = true;
 
     void Awake() => _agent = GetComponent<Agent>();
+
+    void Start() => ChooseHidingSpot();
 
     void Update()
     {
@@ -221,10 +223,10 @@ public class AgentController : MonoBehaviour, IVelocity
 
     Vector3 Hide()
     {
-        if (Target.Velocity.sqrMagnitude > 0.01f || _hidingSpot == null)
+        if (Target.Velocity.sqrMagnitude > 0.001f)
             ChooseHidingSpot();
         
-        return Seek(_hidingSpot.Value);
+        return Seek(_hidingSpot);
     }
 
     void ChooseHidingSpot()
