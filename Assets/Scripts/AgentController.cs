@@ -77,6 +77,10 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField]
     public float BreakingForce { get; private set; } = .5f;
 
+
+    [field: SerializeField, Space, Header("Collisions")]
+    public bool EnableCollsions { get; private set; } = true;
+
     void Awake() => _agent = GetComponent<Agent>();
 
     void Update()
@@ -93,7 +97,10 @@ public class AgentController : MonoBehaviour, IVelocity
 
         var nextPosition = transform.position + Velocity * Time.deltaTime;
 
-        transform.position = CircleCollider.ResolveCollision(gameObject, nextPosition);
+        if (EnableCollsions)
+            nextPosition = CircleCollider.ResolveCollision(gameObject, nextPosition);
+
+        transform.position = nextPosition;
 
         //Debug.DrawLine(transform.position, transform.position + Velocity.normalized, Color.red);
 
@@ -106,12 +113,11 @@ public class AgentController : MonoBehaviour, IVelocity
 
         if (Exposed) 
         {
-            if (MayBeVisible)
-            {   
-                if (dist < EvadeMinDistance)
-                    return Evade();
+            if (dist < EvadeMinDistance)
+                return Evade() + AvoidObstacles();
 
-                return Hide();
+            if (MayBeVisible) {
+                return Hide() + AvoidObstacles();
             }
             /*
             else
@@ -120,7 +126,9 @@ public class AgentController : MonoBehaviour, IVelocity
             */
         }
 
-        return Wander() + FlockingEnabled * Flock() + AvoidObstacles();
+        var forces = Wander() + FlockingEnabled * Flock() + AvoidObstacles();
+        
+        return forces;
     }
 
     Vector3 Seek(Vector3 targetPosition)

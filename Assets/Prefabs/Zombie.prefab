@@ -127,20 +127,22 @@ MonoBehaviour:
   <Mass>k__BackingField: 1
   <MaxSpeed>k__BackingField: 2
   <ArriveDistance>k__BackingField: 4
-  <EvadeMinDistance>k__BackingField: 3
+  <EvadeMinDistance>k__BackingField: 3.5
   <PursueMinDistance>k__BackingField: 4
   <WanderRadius>k__BackingField: 1
   <WanderDistance>k__BackingField: 0.3
   <WanderJitter>k__BackingField: 0.2
   <WanderBoundsMargin>k__BackingField: 0.5
+  <WanderCooldown>k__BackingField: 1
   <DistanceFromObstacle>k__BackingField: 2
   <FlockingEnabled>k__BackingField: 1
   <NeighbourRadius>k__BackingField: 2
   <SeparationRadius>k__BackingField: 1
-  <AlignmentAmount>k__BackingField: 1
-  <CohesionAmount>k__BackingField: 1
-  <SeparationAmount>k__BackingField: 2
+  <AlignmentAmount>k__BackingField: 1.3
+  <CohesionAmount>k__BackingField: 1.2
+  <SeparationAmount>k__BackingField: 2.5
   <DetectionDistance>k__BackingField: 1
   <FeelerAngle>k__BackingField: 30
   <AvoidanceForce>k__BackingField: 5
   <BreakingForce>k__BackingField: 2
+  <EnableCollsions>k__BackingField: 1
