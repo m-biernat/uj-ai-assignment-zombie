@@ -45,6 +45,11 @@ public class AgentController : MonoBehaviour, IVelocity
 
     public bool Exposed { get; private set; }
 
+    [field: SerializeField]
+    public float HidingDuration { get; private set; } = 1.5f;
+
+    float _hidingDuration = 0.0f;
+
     
     [field: SerializeField, Range(0, 1), Space, Header("Flock behaviour")]
     public int FlockingEnabled { get; private set; }
@@ -117,7 +122,7 @@ public class AgentController : MonoBehaviour, IVelocity
                 return Evade() + AvoidObstacles();
 
             if (MayBeVisible) {
-                return Hide() + AvoidObstacles();
+                TurnHiding();
             }
             /*
             else
@@ -126,9 +131,24 @@ public class AgentController : MonoBehaviour, IVelocity
             */
         }
 
+        if (Hiding())
+            return Hide() + AvoidObstacles();
+
         var forces = Wander() + FlockingEnabled * Flock() + AvoidObstacles();
-        
+
         return forces;
+    }
+
+    void TurnHiding() => _hidingDuration = HidingDuration;
+
+    bool Hiding()
+    {
+        if (_hidingDuration > 0) {
+            _hidingDuration -= Time.deltaTime;
+            return true;
+        }
+
+        return false;
     }
 
     Vector3 Seek(Vector3 targetPosition)
