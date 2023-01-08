@@ -142,6 +142,7 @@ MonoBehaviour:
   <AlignmentAmount>k__BackingField: 1.3
   <CohesionAmount>k__BackingField: 1.2
   <SeparationAmount>k__BackingField: 3
+  <MinPursuitGroup>k__BackingField: 4
   <DetectionDistance>k__BackingField: 1
   <FeelerAngle>k__BackingField: 30
   <AvoidanceForce>k__BackingField: 5

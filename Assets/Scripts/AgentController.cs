@@ -69,6 +69,11 @@ public class AgentController : MonoBehaviour, IVelocity
     [field: SerializeField]
     public float SeparationAmount { get; private set; }
 
+    private int _groupSize;
+
+    [field: SerializeField]
+    public int MinPursuitGroup { get; private set; }
+
 
     [field: SerializeField, Space, Header("Obstacle avoidance")]
     public float DetectionDistance { get; private set; } = 1.0f;
@@ -120,17 +125,19 @@ public class AgentController : MonoBehaviour, IVelocity
 
         if (Exposed) 
         {
-            if (dist < EvadeMinDistance)
+            if (dist < EvadeMinDistance && _groupSize < MinPursuitGroup)
                 return Evade() + AvoidObstacles();
 
             if (MayBeVisible) {
                 TurnHiding();
             }
-            /*
             else
-                if (dist < PursueMinDistance)
-                    return Pursue();
-            */
+                if (_groupSize >= MinPursuitGroup) {
+                    if (dist < PursueMinDistance)
+                        return Pursue() + AvoidObstacles();
+                    else
+                        return Seek(Target.Position) + AvoidObstacles();
+                }
         }
 
         if (Hiding())
@@ -299,6 +306,8 @@ public class AgentController : MonoBehaviour, IVelocity
                 neighbourCount++;
             }
         }
+
+        _groupSize = neighbourCount + 1;
 
         if (neighbourCount > 0)
         {
