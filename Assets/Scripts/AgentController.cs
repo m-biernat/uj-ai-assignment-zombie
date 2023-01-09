@@ -128,16 +128,22 @@ public class AgentController : MonoBehaviour, IVelocity
             if (dist < EvadeMinDistance && _groupSize < MinPursuitGroup)
                 return Evade() + AvoidObstacles();
 
-            if (MayBeVisible) {
+            if (MayBeVisible) 
+            {
                 TurnHiding();
             }
             else
-                if (_groupSize >= MinPursuitGroup) {
+            {
+                var flocking = FlockingEnabled * Flock();
+                
+                if (_groupSize >= MinPursuitGroup) 
+                {
                     if (dist < PursueMinDistance)
-                        return Pursue() + AvoidObstacles();
+                        return Pursue() + flocking + AvoidObstacles();
                     else
-                        return Seek(Target.Position) + AvoidObstacles();
+                        return Seek(Target.Position) + flocking + AvoidObstacles();
                 }
+            }
         }
 
         if (Hiding())
